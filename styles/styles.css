@@ -1,0 +1,48 @@
+body {
+  margin: 30px 120px;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.header-buttons {
+  display: flex;
+  gap: 40px;
+}
+
+.header-buttons button {
+  border-radius: 5px;
+  min-width: 225px;
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 100%;
+  transition: 500ms;
+}
+
+.add-usr {
+  border: 1px solid #8338ec;
+  color: #212529;
+  background-color: white;
+}
+
+.add-usr:hover {
+  border: 1px solid #b588f4;
+}
+
+.add-task {
+  display: flex;
+  color: white;
+  background-color: #8338ec;
+  border: none;
+  gap: 4px;
+}
+
+.add-task:hover {
+  background-color: #b588f4;
+}

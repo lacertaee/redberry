@@ -1,5 +1,5 @@
 const department_api = "https://momentum.redberryinternship.ge/api/departments";
-const token = "9e71cf24-bbcd-4a20-9005-6e26629aa825";
+const token = "9e75d312-2d9f-4e7c-968f-c4f82f53a111";
 const options = Array.from(document.querySelectorAll(".dropdown-list"));
 const modal = document.querySelector(".form-select");
 
@@ -17,9 +17,10 @@ const image = document.getElementById("image-input");
 const trash = document.querySelector(".trash");
 let img;
 
-addUserButton.addEventListener("click", () => {
-  console.log(1);
-});
+const addTask = document.querySelector(".finish");
+let department;
+
+const select = document.querySelector(".form-select");
 
 document.addEventListener("DOMContentLoaded", () => {
   axios
@@ -43,6 +44,10 @@ document.addEventListener("DOMContentLoaded", () => {
     validate(2, last);
   });
 
+  select.addEventListener("change", (event) => {
+    department = Number(event.target.selectedOptions[0].id);
+  });
+
   image.addEventListener("change", (event) => {
     const file = event.target.files[0];
     const reader = new FileReader();
@@ -61,6 +66,11 @@ document.addEventListener("DOMContentLoaded", () => {
     };
     reader.readAsDataURL(file);
     img = file;
+  });
+
+  addTask.addEventListener("click", () => {
+    create(first, last, department, img);
+    location.reload();
   });
 
   trash.addEventListener("click", () => {
@@ -152,9 +162,29 @@ function validate(num, input) {
 }
 
 function create(name, surname, department, avatar) {
-  const formData = new FormData();
-  formData.append("avatar", avatar);
-  formData.append("name", name);
-  formData.append("surname", surname);
-  formData.append("department_id", department);
+  if (department !== undefined && avatar !== undefined) {
+    const formData = new FormData();
+    formData.append("name", name.value);
+    formData.append("surname", surname.value);
+    formData.append("avatar", avatar);
+    formData.append("department_id", department);
+    axios
+      .post("https://momentum.redberryinternship.ge/api/employees", formData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "multipart/form-data",
+        },
+      })
+      .then((response) => {
+        console.log(response.data);
+      })
+      .catch((error) => {
+        if (error.response) {
+          console.log("Error response:", error.response.data);
+          console.log("Error status:", error.response.status);
+        } else {
+          console.log("Error message:", error.message);
+        }
+      });
+  }
 }

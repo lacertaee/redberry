@@ -54,7 +54,6 @@ header {
   display: flex;
   border: 1px solid #dee2e6;
   width: max-content;
-  padding: 10px 18px;
   border-radius: 10px;
   gap: 75px;
 }
@@ -71,6 +70,7 @@ header {
 main {
   display: flex;
   justify-content: space-between;
+  margin-top: 40px;
 }
 
 .cards {

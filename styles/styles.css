@@ -59,15 +59,6 @@ header {
   gap: 75px;
 }
 
-object {
-  fill: red;
-}
-
-.form-select {
-  border: none;
-  padding: 40px 30px 20px 30px;
-}
-
 .dropdown-btn {
   border: none;
   background-color: white;
@@ -213,4 +204,177 @@ main {
 
 .modal-title {
   font-weight: bold;
+}
+
+.title-container {
+  display: flex;
+  justify-content: center;
+}
+
+.main-cont {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+
+.modal-body {
+  display: flex;
+  flex-direction: column;
+  gap: 45px;
+}
+
+.top-form {
+  display: flex;
+  gap: 45px;
+}
+
+.both {
+  display: flex;
+  flex-direction: column;
+}
+
+.inp {
+  border-radius: 6px;
+  border: 1px solid #ced4da;
+  padding: 10px;
+  min-width: 380px;
+}
+
+.user-label {
+  font-weight: 1000;
+}
+
+.validate {
+  width: 10.67px;
+  height: 7.33px;
+  top: 4px;
+  left: 2.67px;
+  border: 2px solid #6c757d;
+  border-top: none;
+  border-right: none;
+  transform: rotate(-45deg);
+  margin-bottom: 4px;
+}
+
+.validation {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.validate-text {
+  color: #6c757d;
+  font-weight: 350;
+  font-size: 15px;
+}
+
+.correct-text {
+  color: #08a508;
+}
+
+.correct-mark {
+  border: 2px solid #08a508;
+  border-top: none;
+  border-right: none;
+}
+
+.incorrect-text {
+  color: #fa4d4d;
+}
+
+.incorrect-mark {
+  border: 2px solid #fa4d4d;
+  border-top: none;
+  border-right: none;
+}
+
+.incorrect-input {
+  border: 1px solid #fa4d4d;
+}
+
+.disabled {
+  background-color: #b588f4;
+}
+
+.correct-input {
+  border: 1px solid #08a508;
+}
+
+.mid-form {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.image-input {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding-top: 50px;
+  padding-bottom: 20px;
+  border: 1px dashed #ced4da;
+  border-radius: 8px;
+}
+
+.modal-img-cont {
+  position: relative;
+}
+
+.trash {
+  width: 24px;
+  border: 0.3px solid #6c757d;
+  border-radius: 30px;
+  padding: 5px;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  background: white;
+  cursor: pointer;
+}
+
+.upload-image {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+#image-input {
+  position: absolute;
+  scale: 3;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+}
+
+.image-input-container {
+  cursor: pointer;
+}
+
+.bot-form {
+  display: flex;
+  flex-direction: column;
+  max-width: 384px;
+}
+
+.form-select {
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #ced4da;
+}
+
+.modal-btn {
+  border-radius: 5px;
+  padding: 10px 16px;
+  transition: 500ms;
+}
+
+.modal-footer .add-task {
+  padding: 10px 20px;
 }

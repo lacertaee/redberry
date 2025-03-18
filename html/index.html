@@ -389,17 +389,65 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h3 class="modal-title" id="exampleModalLabel">თანამშრომლის დამატება</h3>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body">
-        ...
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="add-usr" data-dismiss="modal">გაუქმება</button>
-        <button type="button" class="add-task">დაამატე თანამშრომელი</button>
+      <div class="main-cont">
+        <div class="title-container">
+          <h3 class="modal-title" id="exampleModalLabel">თანამშრომლის დამატება</h3>
+        </div>
+        <form class="modal-body" action="">
+          <div class="top-form">
+            <div class="both">
+              <label class="user-label" for="">სახელი*</label>
+              <input class="inp first-name" type="text">
+              <div class="validation">
+                <div class="validate"></div>
+                <div class="validate-text">მინიმუმ 2 სიმბოლო</div>
+              </div>
+              <div class="validation">
+                <div class="validate"></div>
+                <div class="validate-text">მაქსიმუმ 255 სიმბოლო</div>
+              </div>
+            </div>
+            <div class="both">
+              <label class="user-label" for="">გვარი*</label>
+              <input class="inp last-name" type="text">
+              <div class="validation">
+                <div class="validate"></div>
+                <div class="validate-text">მინიმუმ 2 სიმბოლო</div>
+              </div>
+              <div class="validation">
+                <div class="validate"></div>
+                <div class="validate-text">მაქსიმუმ 255 სიმბოლო</div>
+              </div>
+            </div>
+          </div>
+          <div class="mid-form">
+            <label class="user-label" for="">ავატარი*</label>
+            <div class="image-input">
+              <div class="upload-image">
+                <div class="modal-img-cont">
+                  <img class="img" src="../images/Frame 1000005790.png"alt="">
+                  <img class="trash" style="display: none;" src="../images/trash-2.svg" alt="">
+                </div>
+                <div class="upload-image-text">ატვირთე ფოტო</div>
+                <input type="file" id="image-input" accept="image/*">
+              </div>
+            </div>
+          </div>
+          <div class="bot-form">
+            <label class="user-label" for="">დეპარტამენტი*</label>
+            <select class="form-select" aria-label="Disabled select example">
+              <option selected disabled hidden></option>
+            </select>
+          </div>
+        </form>
+        <div class="modal-footer">
+          <button type="button" class="add-usr modal-btn" data-dismiss="modal">გაუქმება</button>
+          <button type="button" class="add-task modal-btn finish disabled">დაამატე თანამშრომელი</button>
+        </div>
       </div>
     </div>
   </div>

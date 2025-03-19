@@ -378,3 +378,62 @@ main {
 .modal-footer .add-task {
   padding: 10px 20px;
 }
+
+.new-task {
+  border: 0.3px solid #ddd2ff;
+  border-radius: 4px;
+}
+
+.add-task-container {
+  display: flex;
+}
+
+.left-side {
+  display: flex;
+  flex-direction: column;
+  gap: 55px;
+}
+
+.header,
+.description,
+.deadline {
+  display: flex;
+  flex-direction: column;
+}
+
+.description textarea {
+  width: 550px;
+  height: 133px;
+}
+
+.footer {
+  display: flex;
+  gap: 32px;
+}
+
+.form-group {
+  display: flex;
+  gap: 161px;
+}
+
+.department-employee {
+  display: flex;
+  flex-direction: column;
+  gap: 105px;
+}
+
+.department-employee div {
+  display: flex;
+  flex-direction: column;
+  min-width: 550px;
+}
+
+.right-side {
+  display: flex;
+  flex-direction: column;
+  gap: 179px;
+}
+
+select {
+  min-height: 45.6px;
+}

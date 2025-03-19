@@ -17,10 +17,17 @@ const image = document.getElementById("image-input");
 const trash = document.querySelector(".trash");
 let img;
 
-const addTask = document.querySelector(".finish");
+console.log(marks, text);
+
+const addUser = document.querySelector(".finish");
 let department;
 
+const addTask = document.querySelector(".add-task");
+
 const select = document.querySelector(".form-select");
+
+const headerInput = document.querySelector(".add-task-header");
+const descriptionInput = document.querySelector(".add-task-description");
 
 document.addEventListener("DOMContentLoaded", () => {
   axios
@@ -68,7 +75,7 @@ document.addEventListener("DOMContentLoaded", () => {
     img = file;
   });
 
-  addTask.addEventListener("click", () => {
+  addUser.addEventListener("click", () => {
     create(first, last, department, img);
     location.reload();
   });
@@ -81,6 +88,29 @@ document.addEventListener("DOMContentLoaded", () => {
     trash.style.display = "none";
     image.style.display = "block";
   });
+
+  addTask.addEventListener("click", () => {
+    window.location.assign("../html/new-task.html");
+  });
+
+  axios
+    .get("https://momentum.redberryinternship.ge/api/employees", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+    .then((response) => {
+      console.log(response.data);
+    })
+    .catch((error) => {
+      if (error.response) {
+        console.log("Error response:", error.response.data);
+        console.log("Error status:", error.response.status);
+      } else {
+        console.log("Error message:", error.message);
+      }
+    });
+
   // axios
   //   .get("https://momentum.redberryinternship.ge/api/tasks", {
   //     headers: {

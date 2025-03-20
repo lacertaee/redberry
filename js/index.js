@@ -34,20 +34,70 @@ document.addEventListener("DOMContentLoaded", () => {
     })
     .then((response) => {
       const data = response.data;
+      console.log(data);
       data.forEach((element) => {
         const div = document.createElement("div");
         div.classList.add("item");
+        div.id = element.id;
+        let department_name;
+        let department_color;
+        let priority_color;
+        console.log(element.priority.id);
+        switch (element.priority.id) {
+          case 1:
+            priority_color = "#08A508";
+            break;
+          case 2:
+            priority_color = "#FFBE0B";
+            break;
+          case 3:
+            priority_color = "#FA4D4D";
+            break;
+        }
+
+        switch (element.department.name) {
+          case "ადამიანური რესურსების დეპარტამენტი":
+            department_color = "#e831e8";
+            department_name = "რეს. დეპ.";
+            break;
+          case "ადმინისტრაციის დეპარტამენტი":
+            department_color = "#f56767";
+            department_name = "ადმ. დეპ";
+            break;
+          case "ფინანსების დეპარტამენტი":
+            department_color = "#47b847";
+            department_name = "ფინანსები";
+            break;
+          case "გაყიდვები და მარკეტინგის დეპარტამენტი":
+            department_color = "#FD9A6A";
+            department_name = "მარკეტინგი";
+            break;
+          case "ლოჯოსტიკის დეპარტამენტი":
+            department_color = "#89B6FF";
+            department_name = "ლოჯისტიკა";
+            break;
+          case "ტექნოლოგიების დეპარტამენტი":
+            department_color = "#FFD86D";
+            department_name = "ინფ. ტექ.";
+            break;
+          case "მედიის დეპარტამენტი":
+            department_color = "#FF66A8";
+            department_name = "მედია";
+            break;
+        }
+
+        const formattedDate = formatDate(element.due_date);
 
         div.innerHTML = `
           <div class="top">
             <div class="cont">
-              <div class="priority">
-                <div class="logo">${element.priority.icon}</div>
-                <div class="text">${element.priority.name}</div>
+              <div style="border: 0.5px solid ${priority_color};" class="priority">
+                <img class="logo" src="${element.priority.icon}">
+                <div style="color: ${priority_color};" class="text">${element.priority.name}</div>
               </div>
-              <div class="department">${element.department.name}</div>
+              <div style="background-color: ${department_color};" class="department">${department_name}</div>
             </div>
-            <div class="time">${element.due_date}</div>
+            <div class="time">${formattedDate}</div>
           </div>
           <div class="middle">
             <div class="middle-first">${element.name}</div>
@@ -66,10 +116,13 @@ document.addEventListener("DOMContentLoaded", () => {
           document.querySelector(".starting").appendChild(div);
         } else if (element.status.name === "პროგრესში") {
           document.querySelector(".in-progress").appendChild(div);
+          div.style.border = "1px solid #FB5607";
         } else if (element.status.name === "მზად ტესტირებისთვის") {
           document.querySelector(".testing-ready").appendChild(div);
+          div.style.border = "1px solid #FF006E";
         } else {
           document.querySelector(".finished").appendChild(div);
+          div.style.border = "1px solid #3A86FF";
         }
       });
     })
@@ -252,4 +305,26 @@ function create(name, surname, department, avatar) {
         }
       });
   }
+}
+
+function formatDate(datetime) {
+  const months = [
+    "იანვ",
+    "თებ",
+    "მარ",
+    "აპრ",
+    "მაი",
+    "ივნ",
+    "ივლ",
+    "აგვ",
+    "სექ",
+    "ოქტ",
+    "ნოე",
+    "დეკ",
+  ];
+  const date = new Date(datetime);
+  const day = date.getDate();
+  const month = months[date.getMonth()];
+  const year = date.getFullYear();
+  return `${day} ${month}, ${year}`;
 }

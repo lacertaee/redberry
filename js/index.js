@@ -27,6 +27,55 @@ const descriptionInput = document.querySelector(".add-task-description");
 
 document.addEventListener("DOMContentLoaded", () => {
   axios
+    .get("https://momentum.redberryinternship.ge/api/tasks", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+    .then((response) => {
+      const data = response.data;
+      data.forEach((element) => {
+        const div = document.createElement("div");
+        div.classList.add("item");
+
+        div.innerHTML = `
+          <div class="top">
+            <div class="cont">
+              <div class="priority">
+                <div class="logo">${element.priority.icon}</div>
+                <div class="text">${element.priority.name}</div>
+              </div>
+              <div class="department">${element.department.name}</div>
+            </div>
+            <div class="time">${element.due_date}</div>
+          </div>
+          <div class="middle">
+            <div class="middle-first">${element.name}</div>
+            <div class="middle-second">${element.description}</div>
+          </div>
+          <div class="bottom">
+            <img src="${element.employee.avatar}" class="photo">
+            <div class="comment-container">
+              <img src="../images/Comments.png" width="22px" alt="">
+              <div class="comment">${element.total_comments}</div>
+            </div>
+          </div>
+        `;
+
+        if (element.status.name === "დასაწყები") {
+          document.querySelector(".starting").appendChild(div);
+        } else if (element.status.name === "პროგრესში") {
+          document.querySelector(".in-progress").appendChild(div);
+        } else if (element.status.name === "მზად ტესტირებისთვის") {
+          document.querySelector(".testing-ready").appendChild(div);
+        } else {
+          document.querySelector(".finished").appendChild(div);
+        }
+      });
+    })
+    .catch((error) => console.error(error));
+
+  axios
     .get(department_api)
     .then((response) => {
       const data = response.data;
@@ -100,17 +149,6 @@ document.addEventListener("DOMContentLoaded", () => {
   addTask.addEventListener("click", () => {
     window.location.assign("../html/new-task.html");
   });
-
-  // axios
-  //   .get("https://momentum.redberryinternship.ge/api/tasks", {
-  //     headers: {
-  //       Authorization: `Bearer ${token}`,
-  //     },
-  //   })
-  //   .then((response) => {
-  //     console.log(response.data);
-  //   })
-  //   .catch((error) => console.error(error));
 });
 
 function validate(num, input) {

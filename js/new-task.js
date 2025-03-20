@@ -9,6 +9,14 @@ const modal = document.querySelector(".department-select");
 const status = document.querySelector(".status");
 const department = document.querySelector(".add-employee-department");
 const addUsr = document.querySelector(".add-usr");
+const addTask = document.querySelector(".add-task-button");
+
+const addTaskHeader = document.querySelector(".add-task-header");
+const description = document.querySelector(".add-task-description");
+const date = document.querySelector(".add-task-deadline");
+let status_id;
+let employee_id;
+let priority_id;
 
 const responsible = document.querySelector(".employee");
 
@@ -95,6 +103,7 @@ document.addEventListener("DOMContentLoaded", () => {
           document.querySelector(".placeholder-text-priority").innerHTML =
             data[i].name;
           priorityOptions.classList.add("hidden");
+          priority_id = data[i].id;
         });
       }
     })
@@ -170,11 +179,65 @@ document.addEventListener("DOMContentLoaded", () => {
                 ".placeholder-text-employee"
               ).innerHTML = `${wantedEmployees[i].name} ${wantedEmployees[i].surname}`;
               options.classList.add("hidden");
+              employee_id = wantedEmployees[i].id;
             });
           }
         }
       })
       .catch((error) => console.log(error.status));
+  });
+
+  status.addEventListener("change", (event) => {
+    status_id = Number(event.target.selectedOptions[0].id);
+  });
+
+  addTask.addEventListener("click", () => {
+    console.log(
+      status_id,
+      priority_id,
+      employee_id,
+      addTaskHeader.value,
+      description.value,
+      date.value
+    );
+
+    valid(addTaskHeader.value, addTaskHeader);
+    valid(description.value, description);
+    valid(status_id, status);
+    valid(priority_id, priority);
+    valid(date.value, date);
+    valid(employee_id, responsible);
+
+    if (
+      status_id !== undefined &&
+      priority_id !== undefined &&
+      employee_id !== undefined &&
+      addTaskHeader.value !== "" &&
+      description.value !== "" &&
+      date.value !== ""
+    ) {
+      const formData = new FormData();
+      formData.append("name", addTaskHeader.value);
+      formData.append("description", description.value);
+      formData.append("due_date", date.value);
+      formData.append("status_id", status_id);
+      formData.append("employee_id", employee_id);
+      formData.append("priority_id", priority_id);
+      axios
+        .post("https://momentum.redberryinternship.ge/api/tasks", formData, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "multipart/form-data",
+          },
+        })
+        .then((response) => {
+          console.log(response.status);
+          location.reload();
+        })
+        .catch((error) => {
+          date.style.border = "1px solid red";
+        });
+    }
   });
 
   priority.addEventListener("click", () => {
@@ -350,5 +413,13 @@ function create(name, surname, department, avatar) {
           console.log("Error message:", error.message);
         }
       });
+  }
+}
+
+function valid(check, element) {
+  if (check === undefined || check === "") {
+    element.style.border = "1px solid red";
+  } else {
+    element.style.border = "1px solid green";
   }
 }

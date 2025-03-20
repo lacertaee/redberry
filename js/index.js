@@ -1,13 +1,13 @@
 const department_api = "https://momentum.redberryinternship.ge/api/departments";
 const token = "9e75d312-2d9f-4e7c-968f-c4f82f53a111";
 const options = Array.from(document.querySelectorAll(".dropdown-list"));
-const modal = document.querySelector(".form-select");
+const modal = document.querySelector(".department-select");
 
 const inputs = Array.from(document.querySelectorAll(".inp"));
 
 const first = document.querySelector(".first-name");
-const marks = Array.from(document.querySelectorAll(".validate"));
-const text = Array.from(document.querySelectorAll(".validate-text"));
+let marks = Array.from(document.querySelectorAll(".validate"));
+let text = Array.from(document.querySelectorAll(".validate-text"));
 const last = document.querySelector(".last-name");
 
 const addUserButton = document.querySelector(".finish");
@@ -17,14 +17,10 @@ const image = document.getElementById("image-input");
 const trash = document.querySelector(".trash");
 let img;
 
-console.log(marks, text);
-
 const addUser = document.querySelector(".finish");
 let department;
 
 const addTask = document.querySelector(".add-task");
-
-const select = document.querySelector(".form-select");
 
 const headerInput = document.querySelector(".add-task-header");
 const descriptionInput = document.querySelector(".add-task-description");
@@ -32,6 +28,19 @@ const descriptionInput = document.querySelector(".add-task-description");
 document.addEventListener("DOMContentLoaded", () => {
   axios
     .get(department_api)
+    .then((response) => {
+      const data = response.data;
+      for (let i = 0; i < data.length; i++) {
+        const option = document.createElement("option");
+        option.text = data[i].name;
+        option.id = data[i].id;
+        modal.appendChild(option);
+      }
+    })
+    .catch((error) => console.log(error));
+
+  axios
+    .get("https://momentum.redberryinternship.ge/api/statuses")
     .then((response) => {
       const data = response.data;
       for (let i = 0; i < data.length; i++) {
@@ -51,7 +60,7 @@ document.addEventListener("DOMContentLoaded", () => {
     validate(2, last);
   });
 
-  select.addEventListener("change", (event) => {
+  modal.addEventListener("change", (event) => {
     department = Number(event.target.selectedOptions[0].id);
   });
 
@@ -77,7 +86,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   addUser.addEventListener("click", () => {
     create(first, last, department, img);
-    location.reload();
   });
 
   trash.addEventListener("click", () => {
@@ -93,24 +101,6 @@ document.addEventListener("DOMContentLoaded", () => {
     window.location.assign("../html/new-task.html");
   });
 
-  axios
-    .get("https://momentum.redberryinternship.ge/api/employees", {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    })
-    .then((response) => {
-      console.log(response.data);
-    })
-    .catch((error) => {
-      if (error.response) {
-        console.log("Error response:", error.response.data);
-        console.log("Error status:", error.response.status);
-      } else {
-        console.log("Error message:", error.message);
-      }
-    });
-
   // axios
   //   .get("https://momentum.redberryinternship.ge/api/tasks", {
   //     headers: {
@@ -124,7 +114,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 function validate(num, input) {
-  if (input.value.length < 2 || input.value.length > 255) {
+  if (input.value.length < 2) {
     if (input.classList.contains("correct-input")) {
       input.classList.remove("correct-input");
     }
@@ -135,14 +125,20 @@ function validate(num, input) {
     if (text[num].classList.contains("correct-text")) {
       text[num].classList.remove("correct-text");
     }
-    if (marks[1].classList.contains("correct-mark")) {
+
+    marks[num].classList.add("incorrect-mark");
+    text[num].classList.add("incorrect-text");
+  } else if (input.value.length > 255) {
+    if (input.classList.contains("correct-input")) {
+      input.classList.remove("correct-input");
+    }
+    input.classList.add("incorrect-input");
+    if (marks[num + 1].classList.contains("correct-mark")) {
       marks[num + 1].classList.remove("correct-mark");
     }
     if (text[num + 1].classList.contains("correct-text")) {
       text[num + 1].classList.remove("correct-text");
     }
-    marks[num].classList.add("incorrect-mark");
-    text[num].classList.add("incorrect-text");
     marks[num + 1].classList.add("incorrect-mark");
     text[num + 1].classList.add("incorrect-text");
   } else {
@@ -206,7 +202,8 @@ function create(name, surname, department, avatar) {
         },
       })
       .then((response) => {
-        console.log(response.data);
+        console.log(response.status);
+        location.reload();
       })
       .catch((error) => {
         if (error.response) {

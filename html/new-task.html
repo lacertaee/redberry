@@ -9,6 +9,10 @@
       integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
       crossorigin="anonymous"
     />
+    <link
+      href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+      rel="stylesheet"
+    />
     <link rel="stylesheet" href="../styles/styles.css" />
     <title>new-task</title>
   </head>
@@ -35,7 +39,7 @@
 
     <h1>შექმენი ახალი დავალება</h1>
 
-    <main id="new-task-pg">
+    <main class="new-task-pg">
       <div class="form-group">
         <div class="left-side">
           <div class="header">
@@ -69,31 +73,79 @@
           <div class="footer">
             <div style="display: flex; flex-direction: column; width: 259px">
               <label for="">პრიორიტეტი*</label>
-              <select class="form-select" aria-label="Disabled select example">
-                <option selected disabled hidden></option>
-              </select>
+              <div class="select-menu" style="min-width: auto">
+                <div
+                  id="add-priority"
+                  class="form-select option-container priority"
+                >
+                  <div class="placeholder">
+                    <img
+                      src="../images/Medium.svg"
+                      class="placeholder-img placeholder-img-priority"
+                      alt=""
+                    />
+                    <div class="placeholder-text-priority">საშუალო</div>
+                  </div>
+                  <i class="bx bx-chevron-down"></i>
+                </div>
+                <div class="options options-priority hidden"></div>
+              </div>
             </div>
             <div style="display: flex; flex-direction: column; width: 259px">
               <label for="">სტატუსი*</label>
-              <select class="form-select" aria-label="Disabled select example">
-                <option selected disabled hidden></option>
+              <select
+                class="form-select status"
+                aria-label="Disabled select example"
+              >
+                <option selected disabled hidden>დასაწყები</option>
               </select>
             </div>
           </div>
         </div>
         <div class="right-side">
           <div class="department-employee">
-            <div>
+            <div class="dep-emp-div">
               <label for="">დეპარტამენტი*</label>
-              <select class="form-select" aria-label="Disabled select example">
+              <select
+                class="form-select add-employee-department"
+                aria-label="Disabled select example"
+              >
                 <option selected disabled hidden></option>
               </select>
             </div>
-            <div>
-              <label for="">პასუხისმგებელი თანამშრომელი*</label>
-              <select class="form-select" aria-label="Disabled select example">
-                <option selected disabled hidden></option>
-              </select>
+            <div class="dep-emp-div">
+              <label class="check-responsible responsible" for=""
+                >პასუხისმგებელი თანამშრომელი*</label
+              >
+              <div class="select-menu">
+                <div
+                  id="add-employee"
+                  class="form-select option-container employee"
+                >
+                  <div class="placeholder">
+                    <img
+                      src=""
+                      class="placeholder-img placeholder-img-employee"
+                      alt=""
+                    />
+                    <div class="placeholder-text-employee"></div>
+                  </div>
+                  <i class="bx bx-chevron-down employee-bx responsible"></i>
+                </div>
+                <div class="options options-employee hidden">
+                  <div class="option employee-option" id="add-employee-select">
+                    <img
+                      class="option-image"
+                      src="../images/Frame 1000006008.svg"
+                      style="width: 18px; height: 18px"
+                      alt=""
+                    />
+                    <div class="add-employee-from-select">
+                      დაამატე თანამშრომელი
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
           <div class="deadline">
@@ -102,7 +154,112 @@
           </div>
         </div>
       </div>
+      <div class="add-task-button">
+        <button class="add-task sty">დავალების შექმნა</button>
+      </div>
     </main>
+
+    <div
+      class="modal fade"
+      id="exampleModal"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="main-cont">
+            <div class="title-container">
+              <h3 class="modal-title" id="exampleModalLabel">
+                თანამშრომლის დამატება
+              </h3>
+            </div>
+            <form class="modal-body" action="">
+              <div class="top-form">
+                <div class="both">
+                  <label class="user-label" for="">სახელი*</label>
+                  <input class="inp first-name" type="text" />
+                  <div class="validation">
+                    <div class="validate"></div>
+                    <div class="validate-text">მინიმუმ 2 სიმბოლო</div>
+                  </div>
+                  <div class="validation">
+                    <div class="validate"></div>
+                    <div class="validate-text">მაქსიმუმ 255 სიმბოლო</div>
+                  </div>
+                </div>
+                <div class="both">
+                  <label class="user-label" for="">გვარი*</label>
+                  <input class="inp last-name" type="text" />
+                  <div class="validation">
+                    <div class="validate"></div>
+                    <div class="validate-text">მინიმუმ 2 სიმბოლო</div>
+                  </div>
+                  <div class="validation">
+                    <div class="validate"></div>
+                    <div class="validate-text">მაქსიმუმ 255 სიმბოლო</div>
+                  </div>
+                </div>
+              </div>
+              <div class="mid-form">
+                <label class="user-label" for="">ავატარი*</label>
+                <div class="image-input">
+                  <div class="upload-image">
+                    <div class="modal-img-cont">
+                      <img
+                        class="img"
+                        src="../images/Frame 1000005790.png"
+                        alt=""
+                      />
+                      <img
+                        class="trash"
+                        style="display: none"
+                        src="../images/trash-2.svg"
+                        alt=""
+                      />
+                    </div>
+                    <div class="upload-image-text">ატვირთე ფოტო</div>
+                    <input type="file" id="image-input" accept="image/*" />
+                  </div>
+                </div>
+              </div>
+              <div class="bot-form">
+                <label class="user-label" for="">დეპარტამენტი*</label>
+                <select
+                  class="form-select department-select"
+                  aria-label="Disabled select example"
+                >
+                  <option selected disabled hidden></option>
+                </select>
+              </div>
+            </form>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="add-usr modal-btn"
+                data-dismiss="modal"
+              >
+                გაუქმება
+              </button>
+              <button type="button" class="add-task modal-btn finish disabled">
+                დაამატე თანამშრომელი
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <script
       src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
@@ -120,6 +277,6 @@
       crossorigin="anonymous"
     ></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <script src="../js/index.js"></script>
+    <script src="../js/new-task.js"></script>
   </body>
 </html>

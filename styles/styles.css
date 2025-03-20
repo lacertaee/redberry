@@ -67,7 +67,7 @@ header {
   border-radius: 5px;
 }
 
-main {
+.index-main {
   display: flex;
   justify-content: space-between;
   margin-top: 40px;
@@ -245,8 +245,8 @@ main {
 }
 
 .validate {
-  width: 10.67px;
-  height: 7.33px;
+  width: 8.67px;
+  height: 5.33px;
   top: 4px;
   left: 2.67px;
   border: 2px solid #6c757d;
@@ -265,7 +265,7 @@ main {
 .validate-text {
   color: #6c757d;
   font-weight: 350;
-  font-size: 15px;
+  font-size: 10px;
 }
 
 .correct-text {
@@ -419,10 +419,10 @@ main {
 .department-employee {
   display: flex;
   flex-direction: column;
-  gap: 105px;
+  gap: 91px;
 }
 
-.department-employee div {
+.dep-emp-div {
   display: flex;
   flex-direction: column;
   min-width: 550px;
@@ -431,9 +431,111 @@ main {
 .right-side {
   display: flex;
   flex-direction: column;
-  gap: 179px;
+  gap: 165px;
 }
 
 select {
   min-height: 45.6px;
+}
+
+.new-task-pg {
+  display: flex;
+  flex-direction: column;
+  gap: 145px;
+  width: max-content;
+  padding: 65px 0 0 55px;
+}
+
+.add-task-button {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.deadline input[type="date"] {
+  max-width: 318px;
+}
+
+.sty {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5px;
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 100%;
+  transition: 500ms;
+}
+
+.responsible {
+  color: #adb5bd;
+}
+
+.select-menu {
+  min-width: 550px;
+  min-height: 45px;
+  position: relative;
+}
+
+.option-image {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: top;
+}
+
+.option {
+  display: flex;
+  gap: 6px;
+  font-size: 14px;
+  align-items: center;
+  padding: 8px 10px;
+  border: 0.1px solid white;
+  transition: 200ms;
+  min-width: 550px;
+}
+
+.option:hover {
+  border: 0.1px solid #adb5bd;
+  border-radius: 5px;
+}
+
+.add-employee-from-select {
+  font-size: 16px;
+  color: #8338ec;
+}
+
+#add-employee-select:hover {
+  border: 0.1px solid white;
+  cursor: pointer;
+}
+
+.options {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+}
+
+.option-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+  min-height: 45px;
+}
+
+.hidden {
+  display: none;
+}
+
+.placeholder {
+  display: flex;
+  gap: 5px;
+}
+
+#add-priority,
+#add-employee {
+  display: flex;
+  justify-content: space-between;
 }

@@ -844,10 +844,6 @@ select {
   color: #555;
 }
 
-.chip-close:hover {
-  color: red;
-}
-
 .clear-all-button {
   color: #555;
   cursor: pointer;

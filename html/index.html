@@ -24,10 +24,19 @@
       </div>
     </header>
     <h1 class="header">დავალების გვერდი</h1>
-    <div class="filter">
-      <button class="dropdown-btn">დეპარტამენტი</button>
-      <button class="dropdown-btn">პრიორიტეტი</button>
-      <button class="dropdown-btn">თანამშრომელი</button>
+    <div>
+      <div class="filter-buttons-container"></div>
+    </div>
+
+    <div class="selected-filters-container"></div>
+
+    <button class="clear-all-button hidden">გასუფთავება</button>
+
+    <div class="filter-modal hidden">
+      <div class="filter-modal-content">
+        <button class="close-modal">&times;</button>
+        <div class="filter-values"></div>
+      </div>
     </div>
     <main class="index-main">
       <div class="starting cards">
@@ -190,5 +199,6 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   <script src="../js/index.js"></script>
+  <script src="../js/filter.js"></script>
   </body>
 </html>

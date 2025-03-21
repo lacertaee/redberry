@@ -1,4 +1,18 @@
-@import "@fontsource/firago";
+@font-face {
+  font-family: "FiraGO";
+  src: url("../fonts/firago_5.2.5/ttf/firago-latin-300-normal.ttf")
+    format("truetype");
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "FiraGO";
+  src: url("../fonts/firago_5.2.5/ttf/firago-latin-400-normal.ttf")
+    format("truetype");
+  font-weight: 400;
+  font-style: normal;
+}
 
 body {
   margin: 30px 120px;
@@ -6,6 +20,7 @@ body {
   flex-direction: column;
   gap: 40px;
   font-family: "FiraGO", sans-serif;
+  font-weight: 300;
 }
 
 header {
@@ -139,7 +154,7 @@ header {
 }
 
 .text {
-  font-weight: bold;
+  font-weight: 400;
   font-size: 12px;
   color: orange;
 }
@@ -150,7 +165,7 @@ header {
   padding: 5px 9px;
   border-radius: 15px;
   font-size: 12px;
-  font-weight: bold;
+  font-weight: 400;
   color: white;
   background-color: rgb(228, 105, 125);
 }
@@ -253,7 +268,7 @@ header {
 }
 
 .user-label {
-  font-weight: 1000;
+  font-weight: 600;
 }
 
 .validate {
@@ -550,4 +565,196 @@ select {
 #add-employee {
   display: flex;
   justify-content: space-between;
+}
+
+.task-page {
+  display: flex;
+  gap: 223px;
+  margin-top: 40px;
+}
+
+.task-page-left {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 63px;
+  max-width: 715px;
+}
+
+.task-page-head {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.task-page-header {
+  display: flex;
+  flex-direction: column;
+  gap: 26px;
+}
+
+#correct-gap {
+  gap: 18px;
+}
+
+.header2 {
+  font-weight: bold;
+}
+
+.task-page-description {
+  font-weight: 400;
+}
+
+.task-page-detail {
+  display: flex;
+  padding: 10px 0px;
+  min-height: 70px;
+  align-items: center;
+  gap: 70px;
+}
+
+.detail-left {
+  display: flex;
+  gap: 6px;
+  min-width: 164px;
+}
+
+.status {
+  font-weight: 300;
+}
+
+.status-select {
+  min-width: 259px;
+  font-weight: 300;
+}
+
+.task-page-details {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.task-page-employee-img {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: top;
+}
+
+.employee-details-container {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.employee-detail-department {
+  font-size: 11px;
+  color: #474747;
+}
+
+.employee-detail-name {
+  font-size: 14px;
+}
+
+.employee-detail-container {
+  margin-bottom: 20px;
+}
+
+.task-page-right {
+  display: flex;
+  flex-direction: column;
+  gap: 66px;
+  margin-top: 50px;
+  border: 0.3px solid #ddd2ff;
+  background-color: #f8f3fea6;
+  padding: 40px 45px;
+  border-radius: 10px;
+}
+
+.comment-count {
+  padding: 0px 10px;
+  border-radius: 30px;
+  color: white;
+  background-color: #8338ec;
+  max-height: 22px;
+  display: flex;
+  align-items: center;
+  margin-bottom: 7px;
+}
+
+.comments-header {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.comment-textarea {
+  position: relative;
+}
+
+.comment-textarea textarea {
+  min-width: 651px;
+  min-height: 135px;
+  padding: 18px 20px 15px 20px;
+  border: 0.3px solid #adb5bd;
+  border-radius: 10px;
+}
+
+.add-page-comments {
+  display: flex;
+  flex-direction: column;
+  gap: 38px;
+}
+
+.comment-btn {
+  padding: 8px 20px;
+  border-radius: 20px;
+  position: absolute;
+  right: 20px;
+  bottom: 20px;
+  transition: 300ms;
+}
+
+.respond {
+  color: #8338ec;
+  display: flex;
+  gap: 6px;
+  padding: 6px 0px;
+  cursor: pointer;
+}
+
+.comments-container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 598px;
+}
+
+.comment-details {
+  display: flex;
+  gap: 12px;
+}
+
+.comments {
+  display: flex;
+  flex-direction: column;
+  gap: 38px;
+}
+
+.respond div {
+  font-size: 12px;
+}
+
+.comment-text {
+  font-weight: 400;
+}
+
+.comment-cont {
+  display: flex;
+  flex-direction: column;
+}
+
+.reply {
+  margin-left: 50px;
 }

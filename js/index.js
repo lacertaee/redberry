@@ -5,6 +5,11 @@ const modal = document.querySelector(".department-select");
 
 const inputs = Array.from(document.querySelectorAll(".inp"));
 
+// everything[1].style.display = "block";
+// everything[2].style.display = "flex";
+// everything[3].style.display = "flex";
+
+const everything = Array.from(document.body.children);
 const first = document.querySelector(".first-name");
 let marks = Array.from(document.querySelectorAll(".validate"));
 let text = Array.from(document.querySelectorAll(".validate-text"));
@@ -25,6 +30,22 @@ const addTask = document.querySelector(".add-task");
 const headerInput = document.querySelector(".add-task-header");
 const descriptionInput = document.querySelector(".add-task-description");
 
+const txt = document.querySelector(".text");
+const taskPageLogo = document.querySelector(".task-page-logo");
+const taskPagePriority = document.querySelector(".task-page-priority");
+
+const taskPage = document.querySelector(".task-page");
+
+const taskPageDepartment = document.querySelector(".department");
+const taskPageTaskHeader = document.querySelector(".task-page-task-header");
+const taskPageDescription = document.querySelector(".task-page-description");
+const firstOption = document.querySelector(".first-option");
+const taskPageImage = document.querySelector(".task-page-employee-image");
+const taskPageEmpDep = document.querySelector(".employee-detail-department");
+const taskPageEmpName = document.querySelector(".employee-detail-name");
+const taskPageDeadline = document.querySelector(".task-page-deadline");
+const textareaComment = document.querySelector(".comment-body");
+
 document.addEventListener("DOMContentLoaded", () => {
   axios
     .get("https://momentum.redberryinternship.ge/api/tasks", {
@@ -34,7 +55,6 @@ document.addEventListener("DOMContentLoaded", () => {
     })
     .then((response) => {
       const data = response.data;
-      console.log(data);
       data.forEach((element) => {
         const div = document.createElement("div");
         div.classList.add("item");
@@ -42,7 +62,6 @@ document.addEventListener("DOMContentLoaded", () => {
         let department_name;
         let department_color;
         let priority_color;
-        console.log(element.priority.id);
         switch (element.priority.id) {
           case 1:
             priority_color = "#08A508";
@@ -55,36 +74,9 @@ document.addEventListener("DOMContentLoaded", () => {
             break;
         }
 
-        switch (element.department.name) {
-          case "ადამიანური რესურსების დეპარტამენტი":
-            department_color = "#e831e8";
-            department_name = "რეს. დეპ.";
-            break;
-          case "ადმინისტრაციის დეპარტამენტი":
-            department_color = "#f56767";
-            department_name = "ადმ. დეპ";
-            break;
-          case "ფინანსების დეპარტამენტი":
-            department_color = "#47b847";
-            department_name = "ფინანსები";
-            break;
-          case "გაყიდვები და მარკეტინგის დეპარტამენტი":
-            department_color = "#FD9A6A";
-            department_name = "მარკეტინგი";
-            break;
-          case "ლოჯოსტიკის დეპარტამენტი":
-            department_color = "#89B6FF";
-            department_name = "ლოჯისტიკა";
-            break;
-          case "ტექნოლოგიების დეპარტამენტი":
-            department_color = "#FFD86D";
-            department_name = "ინფ. ტექ.";
-            break;
-          case "მედიის დეპარტამენტი":
-            department_color = "#FF66A8";
-            department_name = "მედია";
-            break;
-        }
+        const short = returnShortText(element.department.name);
+        department_color = short[0];
+        department_name = short[1];
 
         const formattedDate = formatDate(element.due_date);
 
@@ -111,6 +103,21 @@ document.addEventListener("DOMContentLoaded", () => {
             </div>
           </div>
         `;
+
+        div.addEventListener("click", () => {
+          everything[1].style.display = "none";
+          everything[2].style.display = "none";
+          everything[3].style.display = "none";
+          taskPage.style.display = "flex";
+          id = element.id;
+          showTask(id);
+          showComments(id);
+          document
+            .querySelector(".comment-btn")
+            .addEventListener("click", () => {
+              addComments(id, textareaComment.value, (employee_id = 1791));
+            });
+        });
 
         if (element.status.name === "დასაწყები") {
           document.querySelector(".starting").appendChild(div);
@@ -327,4 +334,118 @@ function formatDate(datetime) {
   const month = months[date.getMonth()];
   const year = date.getFullYear();
   return `${day} ${month}, ${year}`;
+}
+
+function format(inputDate) {
+  const daysOfWeek = ["კვი", "ორშ", "სამ", "ოთხ", "ხუთ", "პარ", "შაბ"];
+
+  const date = new Date(inputDate);
+
+  const dayOfWeek = daysOfWeek[date.getDay()];
+
+  const day = date.getDate();
+  const month = date.getMonth() + 1;
+  const year = date.getFullYear();
+
+  return `${dayOfWeek} - ${day}/${month}/${year}`;
+}
+
+function showTask(id) {
+  axios
+    .get(`https://momentum.redberryinternship.ge/api/tasks/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+    .then((response) => {
+      const data = response.data;
+      console.log(data);
+      taskPageDeadline.innerHTML = format(data.due_date);
+      const short = returnShortText(data.department.name);
+      taskPageDepartment.innerHTML = short[1];
+      taskPageDepartment.style.backgroundColor = short[0];
+      taskPageDescription.innerHTML = data.description;
+      taskPageImage.src = data.employee.avatar;
+      taskPageEmpName.innerHTML = `${data.employee.name} ${data.employee.surname}`;
+      taskPageLogo.src = data.priority.icon;
+      taskPageEmpDep.innerHTML = `${data.department.name}`;
+      txt.innerHTML = data.priority.name;
+      firstOption.innerHTML = data.status.name;
+      let priority_color;
+      switch (data.priority.id) {
+        case 1:
+          priority_color = "#08A508";
+          break;
+        case 2:
+          priority_color = "#FFBE0B";
+          break;
+        case 3:
+          priority_color = "#FA4D4D";
+          break;
+      }
+      taskPagePriority.style.border = `0.5px solid ${priority_color}`;
+      txt.style.color = priority_color;
+    })
+    .catch((error) => console.log(error));
+}
+
+function showComments(task) {
+  axios
+    .get(`https://momentum.redberryinternship.ge/api/tasks/${task}/comments`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+    .then((response) => {
+      const data = response.data;
+      console.log(data);
+    })
+    .catch((error) => console.log(error));
+}
+
+function addComments(task, text, id) {
+  const formData = new FormData();
+  formData.append("text", text);
+  formData.append("parent_id", id);
+  axios
+    .post(
+      `https://momentum.redberryinternship.ge/api/tasks/${task}/comments`,
+      formData,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    )
+    .then((response) => {
+      console.log(response.status);
+    })
+    .catch((error) => {
+      if (error.response) {
+        console.log("Error response:", error.response.data);
+        console.log("Error status:", error.response.status);
+      } else {
+        console.log("Error message:", error.message);
+      }
+    });
+}
+
+function returnShortText(text) {
+  switch (text) {
+    case "ადამიანური რესურსების დეპარტამენტი":
+      return ["#e831e8", "რეს. დეპ."];
+    case "ადმინისტრაციის დეპარტამენტი":
+      return ["#f56767", "ადმ. დეპ"];
+    case "ფინანსების დეპარტამენტი":
+      return ["#47b847", "ფინანსები"];
+    case "გაყიდვები და მარკეტინგის დეპარტამენტი":
+      return ["#FD9A6A", "მარკეტინგი"];
+    case "ლოჯოსტიკის დეპარტამენტი":
+      return ["#89B6FF", "ლოჯისტიკა"];
+    case "ტექნოლოგიების დეპარტამენტი":
+      return ["#FFD86D", "ინფ. ტექ."];
+    case "მედიის დეპარტამენტი":
+      return ["#FF66A8", "მედია"];
+  }
 }

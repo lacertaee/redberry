@@ -707,7 +707,8 @@ select {
   gap: 38px;
 }
 
-.comment-btn {
+.comment-btn,
+.reply-btn {
   padding: 8px 20px;
   border-radius: 20px;
   position: absolute;
@@ -729,6 +730,12 @@ select {
   flex-direction: column;
   gap: 12px;
   width: 598px;
+}
+
+.add-comment {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 
 .comment-details {
@@ -757,4 +764,7 @@ select {
 
 .reply {
   margin-left: 50px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }

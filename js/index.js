@@ -5,10 +5,6 @@ const modal = document.querySelector(".department-select");
 
 const inputs = Array.from(document.querySelectorAll(".inp"));
 
-// everything[1].style.display = "block";
-// everything[2].style.display = "flex";
-// everything[3].style.display = "flex";
-
 const everything = Array.from(document.body.children);
 const first = document.querySelector(".first-name");
 let marks = Array.from(document.querySelectorAll(".validate"));
@@ -45,6 +41,11 @@ const taskPageEmpDep = document.querySelector(".employee-detail-department");
 const taskPageEmpName = document.querySelector(".employee-detail-name");
 const taskPageDeadline = document.querySelector(".task-page-deadline");
 const textareaComment = document.querySelector(".comment-body");
+
+const commentButton = document.querySelector(".comment-btn");
+const replyButton = document.querySelector(".reply-btn");
+
+let current_task;
 
 document.addEventListener("DOMContentLoaded", () => {
   axios
@@ -110,13 +111,20 @@ document.addEventListener("DOMContentLoaded", () => {
           everything[3].style.display = "none";
           taskPage.style.display = "flex";
           id = element.id;
-          showTask(id);
+          showTask(id, element.total_comments);
           showComments(id);
-          document
-            .querySelector(".comment-btn")
-            .addEventListener("click", () => {
-              addComments(id, textareaComment.value, (employee_id = 1791));
-            });
+          commentButton.addEventListener("click", () => {
+            if (commentButton.id === "") {
+              addComments(
+                id,
+                textareaComment.value,
+                (employee_id = null),
+                false
+              );
+            } else {
+              addComments(id, textareaComment.value, employee_id, true);
+            }
+          });
         });
 
         if (element.status.name === "დასაწყები") {
@@ -157,6 +165,7 @@ document.addEventListener("DOMContentLoaded", () => {
         option.text = data[i].name;
         option.id = data[i].id;
         modal.appendChild(option);
+        document.querySelector(".status-select").appendChild(option);
       }
     })
     .catch((error) => console.log(error));
@@ -167,6 +176,38 @@ document.addEventListener("DOMContentLoaded", () => {
 
   last.addEventListener("input", () => {
     validate(2, last);
+  });
+
+  document
+    .querySelector(".status-select")
+    .addEventListener("change", function () {
+      const current = this.options[this.selectedIndex];
+      axios
+        .put(
+          `https://momentum.redberryinternship.ge/api/tasks/${current_task}`,
+          {
+            status_id: current.id,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        )
+        .then((response) => {
+          console.log("Response:", response.data);
+        })
+        .catch((error) => {
+          console.error("Error updating data:", error);
+        });
+    });
+
+  document.querySelector(".return-home").addEventListener("click", () => {
+    everything[1].style.display = "block";
+    everything[2].style.display = "flex";
+    everything[3].style.display = "flex";
+    taskPage.style.display = "none";
+    location.reload();
   });
 
   modal.addEventListener("change", (event) => {
@@ -350,7 +391,7 @@ function format(inputDate) {
   return `${dayOfWeek} - ${day}/${month}/${year}`;
 }
 
-function showTask(id) {
+function showTask(id, total_comments) {
   axios
     .get(`https://momentum.redberryinternship.ge/api/tasks/${id}`, {
       headers: {
@@ -359,7 +400,7 @@ function showTask(id) {
     })
     .then((response) => {
       const data = response.data;
-      console.log(data);
+      current_task = id;
       taskPageDeadline.innerHTML = format(data.due_date);
       const short = returnShortText(data.department.name);
       taskPageDepartment.innerHTML = short[1];
@@ -371,6 +412,7 @@ function showTask(id) {
       taskPageEmpDep.innerHTML = `${data.department.name}`;
       txt.innerHTML = data.priority.name;
       firstOption.innerHTML = data.status.name;
+      document.querySelector(".comment-count").innerHTML = total_comments;
       let priority_color;
       switch (data.priority.id) {
         case 1:
@@ -398,15 +440,69 @@ function showComments(task) {
     })
     .then((response) => {
       const data = response.data;
-      console.log(data);
+      const div = document.createElement("div");
+      div.classList.add("comments-container");
+      data.forEach((element) => {
+        const cont = document.createElement("div");
+        cont.classList.add("add-comment");
+
+        cont.innerHTML = `
+          <div class="comment-details">
+            <img class="task-page-employee-img comment-img" src="${element.author_avatar}" alt="">
+            <div>
+              <h5 class="header2 comment-name">${element.author_nickname}</h5>
+              <div class="comment-text">${element.text}</div>
+              <div class="respond">
+                <img src="../images/Left 2.svg" alt="">
+                <div>უპასუხე</div>
+              </div>
+            </div>
+          </div>
+        `;
+
+        cont.querySelector(".respond").addEventListener("click", () => {
+          commentButton.style.display = "none";
+          replyButton.style.display = "block";
+          textareaComment.focus();
+          replyButton.addEventListener("click", () => {
+            addComments(task, textareaComment.value, element.id, true);
+          });
+        });
+
+        if (element.sub_comments.length > 0) {
+          const replies = document.createElement("div");
+          replies.classList.add("reply");
+          element.sub_comments.forEach((sub) => {
+            const subComment = document.createElement("div");
+            subComment.classList.add("comment-cont");
+            subComment.style.flexDirection = "row";
+            subComment.style.gap = "12px";
+
+            subComment.innerHTML = `
+      <img class="task-page-employee-img" src="${sub.author_avatar}" alt="">
+      <div>
+        <h5 class="header2">${sub.author_nickname}</h5>
+        <div class="comment-text">${sub.text}</div>
+      </div>
+    `;
+            replies.appendChild(subComment);
+          });
+          cont.appendChild(replies);
+        }
+
+        div.appendChild(cont);
+        document.querySelector(".add-page-comments").appendChild(div);
+      });
     })
     .catch((error) => console.log(error));
 }
 
-function addComments(task, text, id) {
+function addComments(task, text, id, sub) {
   const formData = new FormData();
   formData.append("text", text);
-  formData.append("parent_id", id);
+  if (id !== null) {
+    formData.append("parent_id", id);
+  }
   axios
     .post(
       `https://momentum.redberryinternship.ge/api/tasks/${task}/comments`,
@@ -419,7 +515,55 @@ function addComments(task, text, id) {
       }
     )
     .then((response) => {
-      console.log(response.status);
+      const newComment = response.data;
+      const cont = document.createElement("div");
+      console.log(task);
+
+      if (sub) {
+        const arr = Array.from(
+          document.querySelectorAll(".comments-container")
+        );
+        console.log(arr);
+        arr.forEach((x) => {
+          x.remove();
+        });
+
+        showComments(task);
+      } else {
+        cont.classList.add("add-comment");
+
+        cont.innerHTML = `
+          <div class="comment-details">
+            <img class="task-page-employee-img comment-img" src="${newComment.author_avatar}" alt="">
+            <div>
+              <h5 class="header2 comment-name">${newComment.author_nickname}</h5>
+              <div class="comment-text">${newComment.text}</div>
+              <div class="respond">
+                <img src="../images/Left 2.svg" alt="">
+                <div>უპასუხე</div>
+              </div>
+            </div>
+          </div>
+        `;
+
+        cont.querySelector(".respond").addEventListener("click", () => {
+          commentButton.style.display = "none";
+          replyButton.style.display = "block";
+          textareaComment.focus();
+          replyButton.addEventListener("click", () => {
+            addComments(task, textareaComment.value, id, true);
+          });
+        });
+        if (document.querySelector(".comments-container") === null) {
+          const div = document.createElement("div");
+          div.classList.add("comments-container");
+          document.querySelector(".add-page-comments").appendChild(div);
+          div.appendChild(cont);
+          document.querySelector(".comments-container").appendChild(div);
+        }
+        document.querySelector(".comments-container").prepend(cont);
+      }
+      textareaComment.value = "";
     })
     .catch((error) => {
       if (error.response) {
